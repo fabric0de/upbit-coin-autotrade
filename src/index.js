@@ -1,8 +1,9 @@
 import getMyAccount from "./api/account.js";
 import getCandle from "./api/candle.js";
-import order from "./api/orders.js";
+//import order from "./api/orders.js";
+import executeTradeStrategy from "./api/tradeStrategy.js";
 
-getMyAccount();
+//getMyAccount();
 
 async function fetchCandles() {
   const market = "KRW-BTC";
@@ -10,8 +11,13 @@ async function fetchCandles() {
   const candles = await getCandle(market, "", count);
   console.log(candles);
 }
+//fetchCandles();
 
-fetchCandles();
+console.log("Trading bot started!");
+setInterval(() => {
+  const now = new Date();
+  console.log(`전략 실행 시간: ${now.toLocaleString()}`); // 현지 시간 형식으로 시간 출력
+  executeTradeStrategy("KRW-BTC", "", 5);
+}, 600000);
 
-order("KRW-BTC", "ask", "0.0001", null, "market"); // 매도 테스트
-order("KRW-BTC", "bid", null, "5000", "price"); // 매수 테스트
+executeTradeStrategy("KRW-BTC", "", 5);
